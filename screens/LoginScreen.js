@@ -3,22 +3,32 @@ import { View, Text, TextInput } from 'react-native';
 import Button from '../components/Button';
 import styles from '../style/styles.dark';
 
+import Session from '../src/session';
+
 export default class LoginScreen extends Component {
     constructor (props) {
         super(props);
         this.state = {
             username: "",
             password: "",
+            error: "",
         };
     }
 
-    login(username, password) {
-        this.props.onLogin(username, password);
+    login = async (username, password) => {
+        const result = await Session.login(username, password);
+        if (result && result.success) {
+            this.props.onSuccess(result.token);
+        } else {
+            this.setState({error: "Invalid Credentials"});
+        }
     }
+    
     render() {
         return (
             <View style={styles.loginBackground} >
                 <Text style={styles.loginLogo}> Dupbit </Text>
+        { this.state.error && <Text style={styles.errorMessage}> {this.state.error} </Text> }
                 <TextInput 
                     style={styles.loginFields}
                     onChangeText={(username) => this.setState({username})}

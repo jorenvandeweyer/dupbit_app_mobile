@@ -1,19 +1,31 @@
 import React, {Component} from 'react';
-import { RefreshControl } from 'react-native';
+import { RefreshControl, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SearchBar } from 'react-native-elements';
+import styles from '../style/styles.dark';
+
+import Device from '../components/Device';
 
 export default class DeviceList extends Component {
-    state = {
-        refreshing: false,
-        query: ""
+    constructor(props) {
+        super(props);
+        this.state = {
+            refreshing: false,
+            query: "",
+            devices: [],
+        };
     }
 
-    _onRefresh = () => {
+    _onRefresh = async () => {
         this.setState({refreshing: true});
-        setTimeout(() => {
-            this.setState({refreshing: false});
-        }, 500);
+        const devices = await this.props.parent.session.list();
+        if (devices && devices.success) {
+            this.setState({devices: devices.sockets});
+            console.log(devices.sockets);
+        }
+        this.setState({
+            refreshing: false,
+        });
     }
 
     handleSearchClear = () => {
@@ -28,20 +40,29 @@ export default class DeviceList extends Component {
     render() {
         return (
             <ScrollView
+                style={styles.container}
                 refreshControl={
                     <RefreshControl
                         refreshing={this.state.refreshing}
                         onRefresh={this._onRefresh}
                     />
                 }>
-            <SearchBar
-                round
-                searchIcon={{ size: 24 }}    
-                clearIcon
-                onChangeText={this.handleSearchChange}
-                onClear={this.handleSearchClear}
-                value={this.state.query}
-                placeholder='Type Here...'/>
+                <SearchBar
+                    containerStyle={styles.searchBar}
+                    round
+                    searchIcon={{ size: 24 }}    
+                    clearIcon
+                    onChangeText={this.handleSearchChange}
+                    onClear={this.handleSearchClear}
+                    value={this.state.query}
+                    placeholder='Type Here...'/>
+                { 
+                    this.state.devices.map((device) => (
+                        <Device 
+                            data={device}
+                            key={device.id}/>
+                    ))
+                }
             </ScrollView>
         );
     }
