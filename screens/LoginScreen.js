@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { View, Text, TextInput } from 'react-native';
 import Button from '../components/Button';
-import styles from '../style/styles.dark';
+import * as styles from '../style/styles.dark';
 
 import Session from '../src/session';
 
@@ -26,23 +26,23 @@ export default class LoginScreen extends Component {
     
     render() {
         return (
-            <View style={styles.loginBackground} >
-                <Text style={styles.loginLogo}> Dupbit </Text>
-        { this.state.error && <Text style={styles.errorMessage}> {this.state.error} </Text> }
+            <View style={styles.defaults.loginBackground}>
+                <Text style={styles.defaults.loginLogo}>Dupbit</Text>
+        { !!this.state.error && <Text style={styles.defaults.errorMessage}>{this.state.error}</Text> }
                 <TextInput 
-                    style={styles.loginFields}
+                    style={styles.defaults.loginFields}
                     onChangeText={(username) => this.setState({username})}
                     placeholder="Username"
-                    placeholderTextColor="#999999" />
+                    placeholderTextColor="#999999"/>
                 <TextInput 
-                    style={styles.loginFields}
+                    style={styles.defaults.loginFields}
                     onChangeText={(password) => this.setState({password})}
                     placeholder="Password" 
                     secureTextEntry={true} 
                     placeholderTextColor="#999999"/>
                 <Button 
                     onPress={() => {this.login(this.state.username, this.state.password)}}
-                    title="Login" />
+                    title="Login"/>
             </View>
         );
     }

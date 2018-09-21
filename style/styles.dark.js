@@ -2,13 +2,91 @@ import { StyleSheet } from 'react-native';
 
 const BG_COLOR = "#32363a";
 const BG_COLOR_2 = "#2B2D31";
+const BUTTON_COLOR = "#444444";
 
-const styles = StyleSheet.create({
+const FOOTER_BG_COLOR = "#2B2D31";
+const FOOTER_BORDER = "#252525";
+
+const DEVICE_BG_COLOR = "#868383";
+
+export const device = StyleSheet.create({
+    body: {
+        backgroundColor: DEVICE_BG_COLOR,
+        height: 90,
+        width: "92%",
+        alignSelf: "center",
+        margin: 6,
+        borderRadius: 20,
+    },
+    circle: {
+        width: 16,
+        height: 16,
+        borderRadius: 8,
+        backgroundColor: "#F24444",
+        marginTop: 15,
+        marginLeft: 20,
+        marginBottom: 10,
+    },
+    online: {
+        backgroundColor: "#33CB05",
+    },
+    title: {
+        position: 'absolute',
+        fontSize: 20,
+        marginTop: 10,
+        marginLeft: 60,
+    },
+    key: {
+        left: 20,
+    },
+    value: {
+        left: 60,
+        position: 'absolute',
+    },
+    header: {
+        borderRadius: 1,
+        backgroundColor: BG_COLOR_2,
+        borderColor: FOOTER_BORDER,
+        borderWidth: 1,
+        width: "100%",
+        height: 64,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingTop: 12,
+    },
+    headerTitle: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        color: '#53575C',
+    },
+});
+
+export const footer = StyleSheet.create({
+    body: {
+        width: "100%",
+        height: 48,
+        paddingLeft: 20,
+        paddingRight: 20,
+        backgroundColor: FOOTER_BG_COLOR,
+        borderWidth: 1,
+        borderColor: FOOTER_BORDER,
+
+        flex: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+    },
+});
+
+export const defaults = StyleSheet.create({
     container: {
         flex: 1,
         height: "100%",
         width: "100%",
         backgroundColor: BG_COLOR,
+    },
+    row: {
+        flexDirection: "row",
     },
     statusBarHolder: {
         height: 22,
@@ -72,7 +150,9 @@ const styles = StyleSheet.create({
         fontSize: 22,
     },
     footer: {
-        backgroundColor: BG_COLOR,
+        backgroundColor: BG_COLOR_2,
+        borderTopWidth: 1,
+        borderTopColor: "#252525",
         flex: 1,
         flexDirection: "row",
         justifyContent: "space-between",
@@ -86,16 +166,11 @@ const styles = StyleSheet.create({
     footerButton: {
         backgroundColor: BG_COLOR_2,
         margin: 2,
-        height: 32,
+        height: 42,
     },
     searchBar: {
         backgroundColor: BG_COLOR,
         borderBottomColor: "transparent",
         borderTopColor: 'transparent'
     },
-    device: {
-        margin: 5,
-    }
 });
-
-export default styles;

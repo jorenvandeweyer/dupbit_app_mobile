@@ -64,7 +64,6 @@ class Dupbit_API extends EventEmitter{
         Object.assign(this, options);
 
         if (!options.token && !search) throw "Need a token to create a websocket/api connection, or use \"(..., true)\"";
-
         this.connect();
     }
 
@@ -161,7 +160,7 @@ class Dupbit_API extends EventEmitter{
             body: {
                 username,
                 password,
-                remote: "api_lib",
+                remote: "mobile_app",
             },
             path: "/api/account/login",
             method: "POST",
@@ -196,7 +195,6 @@ async function Request(options) {
     });
 
     return response && response.data;
-
 }
 
 async function Browser_Request(options) {

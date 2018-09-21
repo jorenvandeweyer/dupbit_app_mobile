@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import {View, AsyncStorage} from 'react-native';
+import {View, AsyncStorage, StatusBar} from 'react-native';
+
 import DeviceList from './screens/DeviceList';
 import LoginScreen from './screens/LoginScreen';
 import LoadingScreen from './screens/LoadingScreen';
 import Footer from './components/Footer';
 
 import Session from './src/session';
-import styles from './style/styles.dark';
+import * as styles from './style/styles.dark';
 
 const sessionOptions = {
     host: "dupbit.com",
@@ -18,15 +19,11 @@ export default class ModalExample extends Component {
         super(props);
         this.state = {
             screen: "loading",
-            token: ""
+            token: "",
+            statusBarHolder: true,
         };
         this.session = "";
     }
-
-
-    // setModalVisible(visible) {
-    //     this.setState({modalVisible: visible});
-    // }
 
     async componentDidMount() {
         this.connect();
@@ -85,47 +82,14 @@ export default class ModalExample extends Component {
             let Screen;
             if (this.state.screen === "devices") Screen = DeviceList;
             return (
-                <View style={styles.container}>
-                    <View style={styles.statusBarHolder} />
+                <View style={styles.defaults.container}>
+                    { this.state.statusBarHolder && <View style={styles.defaults.statusBarHolder}/> }
                     <Screen parent={this}/>
                     <Footer 
                         onLogout={this.logout}
-                        OnChangeScreen={this.changeScreen} />
+                        OnChangeScreen={this.changeScreen}/>
                 </View>
             );
         }
     }
 }
-    // render() {
-    //     return (
-    //     <View height="100%">
-    //         {/* <Modal
-    //             animationType="fade"
-    //             transparent={true}
-    //             visible={this.state.modalVisible}
-    //             onRequestClose={() => {
-    //                 Alert.alert('Modal has been closed.');
-    //             }}>
-    //             <View style={{marginTop: 22}}>
-    //                 <View>
-    //                     <Text>Hello World!</Text>
-
-    //                     <TouchableHighlight
-    //                         onPress={() => {
-    //                             this.setModalVisible(!this.state.modalVisible);
-    //                         }}>
-    //                         <Text>Hide Modal</Text>
-    //                     </TouchableHighlight>
-    //                 </View>
-    //             </View>
-    //         </Modal>
-
-    //         <TouchableHighlight
-    //             onPress={() => {
-    //                 this.setModalVisible(true);
-    //             }}>
-    //             <Text>Show Modal</Text>
-    //         </TouchableHighlight> */}
-    //     </View>
-    // );
-//   }
