@@ -4,9 +4,6 @@ const BG_COLOR = "#32363a";
 const BG_COLOR_2 = "#2B2D31";
 const BUTTON_COLOR = "#444444";
 
-const FOOTER_BG_COLOR = "#2B2D31";
-const FOOTER_BORDER = "#252525";
-
 const DEVICE_BG_COLOR = "#868383";
 
 export const device = StyleSheet.create({
@@ -42,41 +39,9 @@ export const device = StyleSheet.create({
     value: {
         left: 60,
         position: 'absolute',
-    },
-    header: {
-        borderRadius: 1,
-        backgroundColor: BG_COLOR_2,
-        borderColor: FOOTER_BORDER,
-        borderWidth: 1,
-        width: "100%",
-        height: 64,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingTop: 12,
-    },
-    headerTitle: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        color: '#53575C',
-    },
+    }
 });
 
-export const footer = StyleSheet.create({
-    body: {
-        width: "100%",
-        height: 48,
-        paddingLeft: 20,
-        paddingRight: 20,
-        backgroundColor: FOOTER_BG_COLOR,
-        borderWidth: 1,
-        borderColor: FOOTER_BORDER,
-
-        flex: 1,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-    },
-});
 
 export const defaults = StyleSheet.create({
     container: {
@@ -87,6 +52,16 @@ export const defaults = StyleSheet.create({
     },
     row: {
         flexDirection: "row",
+    },
+    settingsButton: {
+        width: "100%",
+        height: 56,
+        backgroundColor: BG_COLOR_2,
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderColor: "#707070",
+        alignItems: "center",
+        marginTop: 25,
     },
     statusBarHolder: {
         height: 22,

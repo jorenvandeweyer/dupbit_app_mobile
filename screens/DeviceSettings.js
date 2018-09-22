@@ -1,68 +1,64 @@
 import React, {Component} from 'react';
-import { RefreshControl, Text } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { SearchBar } from 'react-native-elements';
+import { Alert } from 'react-native'
 import * as styles from '../style/styles.dark';
+import { ScrollView } from 'react-native-gesture-handler';
 
-import Device from '../components/Device';
+import SettingsButton from '../components/SettingsButton';
 
-export default class DeviceSettings extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            refreshing: false,
-            query: "",
-            devices: [],
+import Navigator from '../src/Navigator';
+
+export default class KeysScreen extends Component {
+    static navigationOptions = ({navigation}) => {
+        const { state } = navigation;
+        return {
+            title: `${state.params.identifier} Settings`,
         };
-        this.session = this.props.parent.session;
-        this.list();
     }
 
-    list = async () => {
-        this.setState({refreshing: true});
-        const devices = await this.session.list();
-        console.log(devices);
-        if (devices && devices.success) {
-            this.setState({devices: devices.data});
+    askRevoke = () => {
+        Alert.alert(
+            'Revoke Key',
+            'Revoke the authentication key for this device.',
+            [
+                {text: 'Revoke', onPress: () => this.revoke(), style: 'destructive'},
+                {text: 'Cancel', style: 'cancel'},
+            ],
+            { cancelable: true }
+        )
+    }
+
+    revoke = async () => {
+        const tid = this.props.navigation.state.params.id;
+        const session = Navigator.getSession();
+        const result = await session.sendAPICall({
+            tid,
+        }, {
+            path: "/api/account/removeToken",
+            method: "GET",
+        });
+
+        if (result && result.success) {
+            Navigator.getControl("refreshDevices")();
+            Navigator.navigate("List");
+        } else {
+            Alert.alert("Failed to revoke key",
+                "Please try again later.",
+                [{text: 'Ok'}]
+            )
         }
-        this.setState({refreshing: false});
-    }
 
-    handleSearchClear = () => {
-        this.setState({query: ""});
-    }
 
-    handleSearchChange = (query) => {
-        console.log(query);
-        this.setState({ query });
     }
 
     render() {
         return (
-            <ScrollView
-                refreshControl={
-                    <RefreshControl
-                        refreshing={this.state.refreshing}
-                        onRefresh={this.list()}/> 
-                }
-                style={styles.container}>
-                <SearchBar
-                    containerStyle={styles.searchBar}
-                    round
-                    searchIcon={{ size: 24 }}    
-                    clearIcon
-                    onChangeText={this.handleSearchChange}
-                    onClear={this.handleSearchClear}
-                    value={this.state.query}
-                    placeholder='Type Here...'/>
-                { 
-                    this.state.devices.map((device) => (
-                        <Device 
-                            data={device}
-                            key={device.id}/>
-                    ))
-                }
+            <ScrollView style={styles.defaults.container}>
+                <SettingsButton
+                    title="Revoke Key Device"
+                    img={require("../icons/times.png")}
+                    onPress={this.askRevoke} />
             </ScrollView>
         );
     }
 }
+

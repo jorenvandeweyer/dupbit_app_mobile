@@ -1,24 +1,27 @@
 import React, {Component} from 'react';
-import { RefreshControl, View, Text } from 'react-native';
+import { RefreshControl, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SearchBar } from 'react-native-elements';
 import * as styles from '../style/styles.dark';
 
-import Cog from '../components/Cog';
-import BackArrow from '../components/BackArrow';
+import Navigator from '../src/Navigator';
+
 import Device from '../components/Device';
 
 export default class DeviceList extends Component {
+    static navigationOptions =  {
+        header: null,
+    };
+
     constructor(props) {
         super(props);
         this.state = {
             refreshing: false,
             query: "",
             devices: [],
-            screen: "list",
-            device_id: 0,
         };
-        this.session = this.props.parent.session;
+        this.session = Navigator.getSession();
+        Navigator.setControl('refreshDevices', this.list);
         this.list();
     }
 
@@ -29,12 +32,8 @@ export default class DeviceList extends Component {
         }
     }
 
-    openDevice = async (id) => {
-        this.setState({
-            device_id: id,
-            screen: "device",
-        });
-        this.props.parent.setState({statusBarHolder: false});
+    openDevice = async (device) => {
+        Navigator.navigate("Device", device);
     }
 
     _onRefresh = async () => {
@@ -52,35 +51,10 @@ export default class DeviceList extends Component {
         this.setState({ query });
     }
 
-    back = () => {
-        if (this.state.screen === "device") {
-            this.props.parent.setState({statusBarHolder: true});
-            this.setState({screen: "list"});
-        } else if (this.state.screen === "settings") {
-            this.setState({screen:"device"});
-        } else {
-            this.props.parent.setState({statusBarHolder: true});
-            this.setState({screen: "list"});
-        }
-    }
-
     render() {
-        if (this.state.screen === "device") {
-            return (            
-                <View
-                    style={styles.defaults.container}>
-                    <View style={[styles.device.header, styles.defaults.row]}>
-                        <BackArrow
-                            onPress={this.back}/>
-
-                        <Text style={styles.device.headerTitle}>TITLE</Text>
-                        <Cog/>
-                    </View>
-                    <Text>TEST</Text>
-                </View>
-            );
-        } else if (this.state.screen === "list") {
-            return (
+        return (
+            <View style={styles.defaults.container}>
+                <View style={styles.defaults.statusBarHolder}/>
                 <ScrollView
                     refreshControl={
                         <RefreshControl
@@ -106,8 +80,7 @@ export default class DeviceList extends Component {
                         ))
                     }
                 </ScrollView>
-            );
-        }
-
+            </View>
+        );
     }
 }

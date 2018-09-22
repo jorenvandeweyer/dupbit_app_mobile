@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text, Image } from 'react-native';
 import * as styles from '../style/styles.dark';
 
 export default class Device extends Component {
@@ -25,20 +25,29 @@ export default class Device extends Component {
     render() {
         return (
             <TouchableOpacity 
-                style={styles.device.body}
-                onPress={() => {this.props.onPress(this.data.id)}}>
-                <View style={styles.defaults.row}>
-                    <View style={[styles.device.circle, (!this.device_info.online ? styles.device.online:undefined)]}></View>
-                    <Text style={styles.device.title}>{this.device_info.name}</Text>
+                style={[styles.device.body, styles.defaults.row]}
+                onPress={() => {this.props.onPress(this.data)}}>
+                <View>
+                    <View style={styles.defaults.row}>
+                        <View style={[styles.device.circle, (!this.device_info.online ? styles.device.online:undefined)]}></View>
+                        <Text style={styles.device.title}>{this.device_info.name}</Text>
+                    </View>
+                    <View style={styles.defaults.row}>
+                        <Text style={styles.device.key}>type:</Text>
+                        <Text style={styles.device.value}>{this.device_info.type}</Text>
+                    </View>
+                    <View style={styles.defaults.row}>
+                        <Text style={styles.device.key}>os:</Text>
+                        <Text style={styles.device.value}>{this.device_info.os}</Text>
+                    </View>
                 </View>
-                <View style={styles.defaults.row}>
-                    <Text style={styles.device.key}>type:</Text>
-                    <Text style={styles.device.value}>{this.device_info.type}</Text>
-                </View>
-                <View style={styles.defaults.row}>
-                    <Text style={styles.device.key}>os:</Text>
-                    <Text style={styles.device.value}>{this.device_info.os}</Text>
-                </View>
+                <Image
+                    style={{
+                        alignSelf: "center",
+                        marginLeft: "auto",
+                        marginRight: 15
+                    }}
+                    source={require("../icons/angle-right-solid.png")}/>
             </TouchableOpacity>            
         );
     }

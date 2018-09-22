@@ -1,5 +1,16 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "Dupbit",
+    "sdkVersion": "27.0.0",
+    "icon": "./icons/favicon@512px.png",
+    "description": "The mobile app for Dupbit",
+		"version": "0.1.0",
+		"orientation": "portrait",
+		"ios": {
+			"bundleIdentifier": "com.dupbit.mobile"
+		},
+		"android": {
+			"package": "com.dupbit.mobile"
+		}
   }
 }

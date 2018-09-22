@@ -18,7 +18,7 @@ export default class LoginScreen extends Component {
     login = async (username, password) => {
         const result = await Session.login(username, password);
         if (result && result.success) {
-            this.props.onSuccess(result.token);
+            this.props.screenProps.login(result.token);
         } else {
             this.setState({error: "Invalid Credentials"});
         }

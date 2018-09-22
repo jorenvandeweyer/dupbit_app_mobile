@@ -144,7 +144,7 @@ class Dupbit_API extends EventEmitter{
         });
     }
 
-    async sendAPICall(options) {
+    async sendAPICall(options, override) {
         if (!this.authenticated) return this.emit("error", "invalid token");
 
         return Request({
@@ -152,6 +152,7 @@ class Dupbit_API extends EventEmitter{
             path: "/api/connect/open",
             body: options,
             method: "POST",
+            ...override,
         });
     }
 
